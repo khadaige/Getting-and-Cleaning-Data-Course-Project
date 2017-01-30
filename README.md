@@ -4,9 +4,9 @@ The README explains the analysis files is clear and understandable.
 
 The purpose of this project is to demonstrate your ability to collect, work with, and clean a data set. The goal is to prepare tidy data that can be used for later analysis. 
 We should 
-1) The submitted data set is tidy.
+1)  submit a tidy data set.
 2) The Github repo contains the required scripts.
-   GitHub contains a code book that modifies and updates the available codebooks with the data to indicate all the variables and summaries        calculated, along with units, and any other relevant information.
+   GitHub contains a code book that modifies and updates to indicate all the variables and summaries        calculated, along with units, and any other relevant information.
 
 Here are the data for the project:
 
