@@ -12,17 +12,21 @@ Notes on the original data
 Here are the data for the project:
 https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
-Description of the variables in the tiny_data.txt file
-X_test, y_test, x_train, y_trainm,  subject_train and subject_test, features,  activity_labels contain the data from the downloaded files.
+Description of the variables 
+x_test, y_test,  subject_train,  subject_test, features,  activity_labels contain the data from the downloaded files.
+Here is the activity number and type of activity we have in the data
+ V1                 V2
+ 1            WALKING
+ 2   WALKING_UPSTAIRS
+ 3 WALKING_DOWNSTAIRS
+ 4             SITTING
+ 5            STANDING
+ 6             LAYING
+dataTrain, dataTest, data_test_train for  Merging the data t tables test and training
 
-We will use Activity, Subject and Features as part of descriptive variable names for data in data frame.
+mean_and_std  for defining  mean and standard deviation:
 
 
-Also,  
-1.	prefix t is replaced by time
-2.	Acc is replaced by Accelerometer
-3.	Gyro is replaced by Gyroscope
-4.	prefix f is replaced by frequency
-5.	Mag is replaced by Magnitude
-6.	BodyBody is replaced by Body
+dataCombineActivity  for merging the data by activity name
 
+1. prefix t is replaced by time 2. Acc is replaced by Accelerometer 3. prefix f is replaced by frequency 4. BodyBody replaced by Body
