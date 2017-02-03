@@ -29,4 +29,4 @@ mean_and_std  for defining  mean and standard deviation:
 
 dataCombineActivity  for merging the data by activity name
 
-1. prefix t is replaced by time 2. Acc is replaced by Accelerometer 3. prefix f is replaced by frequency 4. BodyBody replaced by Body
+1. prefix t is replaced by time 2. prefix f is replaced by frequency 4. BodyBody replaced by Body
