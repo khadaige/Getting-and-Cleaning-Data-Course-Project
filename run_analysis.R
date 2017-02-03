@@ -12,78 +12,72 @@ download.file(fileUrl,destfile="./data/Dataset.zip",method="curl")
 #Unzip the file
 unzip(zipfile="./data/Dataset.zip",exdir="./data")
 
-#unzipped files are in the folderUCI HAR Dataset. Get the list of the files
-
+#unzipped files are in the folderUCI HAR Dataset. 
+#Get the list of the files
 path_rf <- file.path("./data" , "UCI HAR Dataset")
 files<-list.files(path_rf, recursive=TRUE)
 #files
 
-#Reading files
-# Reading activity labels:
-subject_train <- read.table("./data/UCI HAR Dataset/train/subject_train.txt")
-subject_test <- read.table("./data/UCI HAR Dataset/test/subject_test.txt")
-#str(subject_train)
-#str(subject_test)
 # Reading trainings tables:
+subject_train <- read.table("./data/UCI HAR Dataset/train/subject_train.txt")
 x_train <- read.table("./data/UCI HAR Dataset/train/X_train.txt")
 y_train <- read.table("./data/UCI HAR Dataset/train/y_train.txt")
 
+
 # Reading testing tables:
+subject_test <- read.table("./data/UCI HAR Dataset/test/subject_test.txt")
 x_test <- read.table("./data/UCI HAR Dataset/test/X_test.txt")
 y_test <- read.table("./data/UCI HAR Dataset/test/y_test.txt")
-
 
 # Reading feature :
 features <- read.table('./data/UCI HAR Dataset/features.txt')
 
 # Reading activity labels:
-activityLabels <- read.table('./data/UCI HAR Dataset/activity_labels.txt')
+activity_labels <- read.table('./data/UCI HAR Dataset/activity_labels.txt')
 
-# Merging the data tables by rows
+#Assigning column names:
+colnames(x_train) <- features[,2] 
+colnames(y_train) <-"activityNum"
+colnames(subject_train) <- "subjectNum"
 
-dataSubject <- rbind(subject_train, subject_test)
-dataActivity<- rbind(y_train, y_test)
-dataFeatures<- rbind(x_train, x_test)
+colnames(x_test) <- features[,2] 
+colnames(y_test) <- "activityNum"
+colnames(subject_test) <- "subjectNum"
 
-#set names to variables
-setnames(dataSubject, "V1", "subject")
+colnames(activityLabels) <- c('activityNum','activityName')
 
-setnames(dataActivity, "V1","activity")
+# Merging the data tables by column
+dataTrain <- cbind(y_train, subject_train, x_train)
+dataTest<- cbind(y_test, subject_test, x_test)
 
-# name variables Features
-dataFeaturesNames <- tbl_df(read.table(file.path(filesPath, "features.txt")))
-setnames(dataFeaturesNames, names(dataFeaturesNames), c("featureNum", "featureName"))
-colnames(dataFeatures) <- dataFeaturesNames$featureName
+# Merging the data tables test and training
+data_train_test <- rbind(dataTrain, dataTest)
 
-#Merge columns to get the data frame Data for all data
-dataCombine <- cbind(dataSubject, dataActivity)
-Data <- cbind(dataFeatures, dataCombine)
-#str(Data)
-
-#Subset Name of Features by measurements on the mean and standard deviation
-#i.e taken Names of Features with “mean()” or “std()”
-
-mean_and_std <- (grepl("activity" , dataFeaturesNames$featureName) | 
-                         grepl("subject" , dataFeaturesNames$featureName) | 
-                         grepl("mean.." , dataFeaturesNames$featureName) | 
-                         grepl("std.." , dataFeaturesNames$featureName) 
+# creating vectou to define the num, mean and std
+mean_and_std <- (grepl("activityNum" , colNames) | 
+                         grepl("subjectNum" , colNames) | 
+                         grepl("mean.." , colNames) | 
+                         grepl("std.." , colNames) 
 )
 
-#Check the structures of the data frame Data
+#subsetting the data regarding the mean and the std
+subData_train_test <- data_train_test[ , mean_and_std == TRUE]
 
-allData <- merge(activityLabels, Data)
-str(allData)
+#Merge  the data by activity name
+dataCombineActivity <- merge(subData_train_test, activityLabels,
+                              by='activityNum',
+                              all.x=TRUE)
+dataCombineActivity
 
 #Appropriately labels the data set with descriptive variable names
-names(allData)<-gsub("^t", "time", names(allData))
-names(allData)<-gsub("^f", "frequency", names(allData))
-names(allData)<-gsub("Acc", "Accelerometer", names(allData))
-names(allData)<-gsub("Gyro", "Gyroscope", names(allData))
-names(allData)<-gsub("Mag", "Magnitude", names(allData))
-names(allData)<-gsub("BodyBody", "Body", names(allData))
+names(dataCombineActivity)<-gsub("^t", "time", names(dataCombineActivity))
+names(dataCombineActivity)<-gsub("^f", "frequency", names(dataCombineActivity))
+names(dataCombineActivity)<-gsub("BodyBody", "Body", names(dataCombineActivity))
+dataCombineActivity
+#str(dataCombineActivity)
 
-str(allData)
 
 #write to text file on disk
-write.table(allData, "TidyData.txt", row.name=FALSE)
+write.table(dataCombineActivity, "TidyData.txt", row.name=FALSE)
+
 
