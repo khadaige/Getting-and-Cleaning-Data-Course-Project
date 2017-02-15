@@ -23,7 +23,7 @@ Here is the activity number and type of activity we have in the data
  5            STANDING
  6             LAYING
 dataTrain, dataTest, data_test_train for  Merging the data t tables test and training
-
+allsubject combine the subject_test, subject_train
 mean_and_std  for defining  mean and standard deviation:
 
 
