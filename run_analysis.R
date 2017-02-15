@@ -44,6 +44,8 @@ colnames(x_test) <- features[,2]
 colnames(y_test) <- "activityNum"
 colnames(subject_test) <- "subjectNum"
 
+allsubject <- cbind(subject_test, subject_train)
+
 colnames(activityLabels) <- c('activityNum','activityName')
 
 # Merging the data tables by column
@@ -76,6 +78,10 @@ names(dataCombineActivity)<-gsub("BodyBody", "Body", names(dataCombineActivity))
 dataCombineActivity
 #str(dataCombineActivity)
 
+#Creating a tidy data set with the average of each variable for each activity and each subject:
+tidySet <- aggregate(. ~allsubject$subjectNum + activityNum + activityName, dataCombineActivity, mean)
+tidySet <- tidySet[order(tidySet$allsubject$subjectNum, tidySet$activityNum),]
+#head(tidySet)
 
 #write to text file on disk
 write.table(dataCombineActivity, "TidyData.txt", row.name=FALSE)
