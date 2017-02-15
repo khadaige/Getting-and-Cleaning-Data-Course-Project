@@ -55,7 +55,7 @@ dataTest<- cbind(y_test, subject_test, x_test)
 # Merging the data tables test and training
 data_train_test <- rbind(dataTrain, dataTest)
 
-# creating vectou to define the num, mean and std
+# creating vector to define the num, mean and std
 mean_and_std <- (grepl("activityNum" , colNames) | 
                          grepl("subjectNum" , colNames) | 
                          grepl("mean.." , colNames) | 
@@ -80,7 +80,7 @@ dataCombineActivity
 
 #Creating a tidy data set with the average of each variable for each activity and each subject:
 tidySet <- aggregate(. ~allsubject$subjectNum + activityNum + activityName, dataCombineActivity, mean)
-tidySet <- tidySet[order(tidySet$allsubject$subjectNum, tidySet$activityNum),]
+tidySet <- tidySet[order(tidySet$`allsubject$subjectNum`, tidySet$activityNum),]
 #head(tidySet)
 
 #write to text file on disk
